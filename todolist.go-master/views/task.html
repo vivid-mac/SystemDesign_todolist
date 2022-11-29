@@ -1,0 +1,19 @@
+{{ template "header" . }}
+<h1>Task: {{ if .Task.Tag }}🏷{{ end }} {{ .Task.Title }}</h1>
+<dl>
+    <dt>ID:　{{ .Task.ID }}</dt><br>
+    <dt>Created at:　{{ .Task.CreatedAt }}</dt><br>
+    <dt>Priority:　{{ if eq .Task.Priority "LOW" }}低{{ else if eq .Task.Priority "MID" }}中{{ else }}高{{ end }}</dt><br>
+    <dt>Status:　<input type="checkbox" {{ if .IsDone }}checked {{ end }}disabled/>済</dt><br>
+    <dt>Deadline:　{{ .Task.Deadline }}</dt><br>
+    <dt>Countdown:　{{ if gt 0 .Countdown }}<strong><font color="#FF0000">締め切りを過ぎています！！</font></strong>{{ else }}残り{{ .Countdown }}日{{ end }}</dt><br>
+    <dt>Category:　{{ .Task.Category }}</dt><br>
+    <dt>グループ共有:　{{ if .Share }}する{{ else }}しない{{ end }}</dt><br>
+    <dt>説明文:</dt>
+    <dd>{{ .Task.Explanation}}</dd>
+</dl>
+<a href="/list/1"><button type="button">リストへ戻る</button></a>
+<a href="/task/edit/{{ .Task.ID }}"><button type="button">編集</button></a>
+<!-- <a href="/task/delete/{{ .ID }}"><button type="button">削除</button></a> -->
+<button type="button" onclick="confirm_task_delete({{ .Task.ID }})">削除</button>
+{{ template "footer" }}

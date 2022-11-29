@@ -1,0 +1,59 @@
+{{ template "header" . }}
+<h1>List of tasks</h1>
+<form action="/list/{{ .Page }}" method="GET">
+    <label>タイトル</label><input type="text" name="kw" value="{{ .Kw }}">
+    <label>カテゴリ</label><select name="category">
+        <option value="" {{ if eq .Category "" }}selected{{ end }}>指定なし</option>
+        <option value="実行中" {{ if eq .Category "実行中" }}selected{{ end }}>実行中</option>
+        <option value="保留中" {{ if eq .Category "保留中" }}selected{{ end }}>保留中</option> 
+        <option value="課題" {{ if eq .Category "課題" }}selected{{ end }}>課題</option> 
+        <option value="仕事" {{ if eq .Category "仕事" }}selected{{ end }}>仕事</option> 
+        <option value="家庭" {{ if eq .Category "家庭" }}selected{{ end }}>家庭</option> 
+        <option value="学校" {{ if eq .Category "学校" }}selected{{ end }}>学校</option> 
+    </select>
+    <label>達成状況</label><select name="check_done">
+        <option value="" {{ if eq .Check_done_str "" }}selected{{ end }}>指定なし</option>
+        <option value="done" {{ if eq .Check_done_str "done" }}selected{{ end }}>完了</option>
+        <option value="not_done" {{ if eq .Check_done_str "not_done" }}selected{{ end }}>未完了</option>
+    </select>
+    <label>タグ</label><select name="tag">
+        <option value="" {{ if eq .Tag_str "" }}selected{{ end }}>指定なし</option>
+        <option value="tagged" {{ if eq .Tag_str "tagged" }}selected{{ end }}>タグあり</option>
+        <option value="not_tagged" {{ if eq .Tag_str "not_tagged" }}selected{{ end }}>タグなし</option>
+    </select>
+    <input type="submit" value="検索">
+</form>
+{{ if not .Tasks }}
+<p>登録データがありません．</p>
+<p><a href="/task/new">新規登録</a></p>
+<p><a href="/">ホームへ戻る</a></p>
+{{ else }}
+<table>
+    <tr>
+        <th>ID</th>
+        <th>タイトル</th>
+        <th>カテゴリ</th>
+        <th>優先度</th>
+        <th>締切日</th>
+        <th>登録日</th>
+        <th>状態</th>
+    </tr>
+    {{ range $task := .Tasks }}
+    <tr>
+        <td><a href="/task/{{ $task.ID }}">{{ $task.ID }}</a></td>
+        <td>{{ if $task.Tag }}🏷{{ end }}{{ $task.Title }}</td>
+        <td>{{ $task.Category }}</td>
+        <td>{{ if eq $task.Priority "LOW" }}低{{ else if eq $task.Priority "MID" }}<strong>中</strong>{{ else }}<strong><font color="#FF0000">高</font></strong>{{ end }}</td>
+        <td>{{ $task.Deadline }}</td>
+        <td>{{ $task.CreatedAt }}</td>
+        <td>{{ if $task.IsDone }}済{{ end }}</td>
+    </tr>
+    {{ end }}   
+</table>
+{{ if and (ne .Prev "Nothing") (ne .Next "Nothing")}}<p><a href="/list/{{ .Prev }}">戻る</a>   <a href="/list/{{ .Next }}">次へ</a></p>
+{{ else if ne .Prev "Nothing" }}<p><a href="/list/{{ .Prev }}">戻る</a></p>
+{{ else if ne .Next "Nothing" }}<p><a href="/list/{{ .Next }}">次へ</a></p>{{ end }} 
+<p><a href="/task/new">新規登録</a></p>
+<p><a href="/">ホームへ戻る</a></p>
+{{ end }}
+{{ template "footer" }}

@@ -1,0 +1,9 @@
+{{ template "header" . }}
+<h1>グループ作成完了</h1>
+<dl>
+    <dt>グループID:　{{ .Group.ID }}</dt>
+    <dt>グループ名:　{{ .Group.Name }}</dt><br>
+    を作成しました.
+</dl>
+<a href="/group/belong"><button type="button">グループに参加する</button></a>
+{{ template "footer" }}

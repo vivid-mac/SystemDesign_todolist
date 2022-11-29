@@ -1,0 +1,22 @@
+{{ template "header" . }}
+<h1>Group Information</h1>
+{{ if not .Group }}
+<p>グループに所属していません．</p>
+<a href="/group/new"><button type="button">グループ作成</button></a>　　<a href="/group/belong"><button type="button">グループ参加</button></a>
+{{ else }}
+<dl>
+    <dt>グループID:　{{ .Group.ID }}</dt>
+    <dt>グループ名:　{{ .Group.Name }}</dt><br>
+    メンバー:
+    <ol>
+    {{ range $name := .Usernames}}
+        <li>{{ $name }}</li>
+    {{ end }}
+    </ol>
+    <br>
+</dl>
+<a href="/group/edit/{{ .Group.ID }}"><button type="button">編集</button></a>
+<a href="/group/leave"><button type="button">グループを抜ける</button></a>
+{{ end }}
+<p><a href="/">ホームへ戻る</a></p>
+{{ template "footer" }}

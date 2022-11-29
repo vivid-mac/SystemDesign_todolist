@@ -1,0 +1,11 @@
+{{ template "header" . }}
+<h1>グループ作成</h1>
+{{ if .Error }}
+<p><font color="#FF0000">{{ .Error }}</font><p>
+{{ end }}
+<form action="/group/new" method="POST">
+    <label>グループ名: </label><input type="text" name="groupname" value="{{ .Groupname }}"required><br>
+    <input type="submit" value="登録">
+    <a href="/"><button type="button">ホームへ戻る</button></a>
+</form>
+{{ template "footer" }}

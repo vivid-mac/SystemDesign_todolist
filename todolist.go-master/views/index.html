@@ -1,0 +1,13 @@
+{{ template "header" . }}
+<h1>TODO List</h1>
+<ul>
+    <li><a href="/list/1">登録済みタスク一覧</a></li>
+    <li><a href="/login">ログイン</a></li>
+    <li><a href="/user/new">ユーザー登録</a></li>
+    {{ if .LoginCheck }}
+    <li><a href="/user">アカウント編集</a></li>
+    <li><a href="/group">グループ編集</a></li>
+    <a href="/logout"><button type="button">ログアウト</button></a>
+    {{ end }}
+</ul>
+{{ template "footer" }}

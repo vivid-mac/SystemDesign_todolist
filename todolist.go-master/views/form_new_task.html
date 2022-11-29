@@ -1,0 +1,32 @@
+{{ template "header" . }}
+<h1>タスクの新規登録</h1>
+<form action="/task/new" method="POST">
+    <label>Title</label><input type="text" name="title" required>
+    <br>
+    <label>Category</label>
+    <select name="category">
+        <option value="">指定なし</option>
+        <option value="実行中">実行中</option>
+        <option value="保留中">保留中</option> 
+        <option value="課題">課題</option> 
+        <option value="仕事">仕事</option> 
+        <option value="家庭">家庭</option> 
+        <option value="学校">学校</option> 
+    </select>
+    <br>
+    <label>priority</label>
+    <select name="priority">
+        <option value="LOW" {{ if eq .Task.Priority "LOW" }}selected{{ end }}>低</option>
+        <option value="MID" {{ if eq .Task.Priority "MID" }}selected{{ end }}>中</option>
+        <option value="HIGH" {{ if eq .Task.Priority "HIGH" }}selected{{ end }}>高</option>
+    </select>
+    <br>
+    <label>deadline</label><input type="datetime-local" name="deadline" value="2022-12-01T19:30" required>
+    <br>
+    <label>Description</label>
+    <textarea name="description"></textarea>
+    <br>
+    <input type="submit" value="登録">
+    <a href="/list/1"><button type="button">戻る</button></a>
+</form>
+{{ template "footer" }}

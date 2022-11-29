@@ -1,0 +1,11 @@
+{{ template "header" . }}
+<h1>Group {{ .ID }}: edit</h1>
+{{ if .Error }}
+<p><font color="#FF0000">{{ .Error }}</font><p>
+{{ end }}
+<form name="EditGroup" action="/group/edit/{{ .Group.ID }}" method="POST">
+    <label>新しいグループ名: </label><input type="text" name="groupname" value="{{ .Group.Name }}" required><br>
+    <input type="submit" value="更新">
+    <a href="/group"><button type="button">戻る</button></a>
+</form>
+{{ template "footer" }}

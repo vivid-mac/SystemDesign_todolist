@@ -1,0 +1,42 @@
+{{ template "header" . }}
+<h1>Task {{ .Task.ID }}: edit</h1>
+<form name="EditTask" action="/task/edit/{{ .Task.ID }}" method="POST">
+    <label>Title</label><input type="text" name="title" value="{{ .Task.Title }}" required>
+    <br>
+    <label>Category</label>
+    <select name="category">
+        <option value="" {{ if eq .Task.Category "" }}selected{{ end }}>指定なし</option>
+        <option value="実行中" {{ if eq .Task.Category "実行中" }}selected{{ end }}>実行中</option>
+        <option value="保留中" {{ if eq .Task.Category "保留中" }}selected{{ end }}>保留中</option> 
+        <option value="課題" {{ if eq .Task.Category "課題" }}selected{{ end }}>課題</option> 
+        <option value="仕事" {{ if eq .Task.Category "仕事" }}selected{{ end }}>仕事</option> 
+        <option value="家庭" {{ if eq .Task.Category "家庭" }}selected{{ end }}>家庭</option> 
+        <option value="学校" {{ if eq .Task.Category "学校" }}selected{{ end }}>学校</option> 
+    </select>
+    <br>
+    <label>priority</label>
+    <select name="priority">
+        <option value="LOW" {{ if eq .Task.Priority "LOW" }}selected{{ end }}>低</option>
+        <option value="MID" {{ if eq .Task.Priority "MID" }}selected{{ end }}>中</option>
+        <option value="HIGH" {{ if eq .Task.Priority "HIGH" }}selected{{ end }}>高</option>
+    </select>
+    <br>
+    <label>deadline</label><input type="datetime-local" name="deadline" value="2022-12-01T19:30" required>
+    <br>
+    <label>Description</label>
+    <textarea name="description">{{ .Task.Explanation }}</textarea>
+    <br>
+    <input type="radio" name="is_done" value="t" {{ if .Task.IsDone }}checked{{ end }}><label>完了</label>
+    <input type="radio" name="is_done" value="f" {{ if not .Task.IsDone }}checked{{ end }}><label>未完了</label>
+    <br>
+    <input type="checkbox" name="tag" value="true" {{ if .Task.Tag }}checked{{ end }}><label>タグ</label>
+    {{ if .Belonged }} <!-- グループに所属している時だけ共有することができる　-->
+    <br>
+    <input type="checkbox" name="share" value="true" {{ if .Share }}checked{{ end }}><label>グループと共有する</label>
+    {{ end }}
+    </br>
+    <!-- <input type="submit" value="登録"> -->
+    <button type="button" onclick="confirm_task_update({{ .Task.ID }})">登録</button>
+    <a href="/task/{{ .Task.ID }}"><button type="button">戻る</button></a>
+</form>
+{{ template "footer" }}
